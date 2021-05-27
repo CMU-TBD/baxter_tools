@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
 # Copyright (c) 2013-2015, Rethink Robotics
 # All rights reserved.
@@ -51,7 +51,7 @@ def list_cameras(*_args, **_kwds):
         master = rosgraph.Master('/rostopic')
         resp.cameras
         cam_topics = dict([(cam, "/cameras/%s/image" % cam)
-                               for cam in resp.cameras])
+                           for cam in resp.cameras])
         open_cams = dict([(cam, False) for cam in resp.cameras])
         try:
             topics = master.getPublishedTopics('')
@@ -64,7 +64,7 @@ def list_cameras(*_args, **_kwds):
         for cam in resp.cameras:
             print("%s%s" % (cam, ("  -  (open)" if open_cams[cam] else "")))
     else:
-        print ('No cameras found')
+        print('No cameras found')
 
 
 def reset_cameras(*_args, **_kwds):
@@ -98,7 +98,7 @@ def close_camera(camera, *_args, **_kwds):
 def main():
     str_res = ["%rx%r" % (r[0], r[1]) for r in CameraController.MODES]
     fmt_res = ("Valid resolutions:\n[" +
-              ("%s, " * (len(CameraController.MODES) - 1)) + "%s]")
+               ("%s, " * (len(CameraController.MODES) - 1)) + "%s]")
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(fmt_res % tuple(str_res))
@@ -134,12 +134,12 @@ def main():
         camera = args.open
         lres = args.resolution.split('x')
         if len(lres) != 2:
-            print fmt_res % tuple(str_res)
+            print(fmt_res % tuple(str_res))
             parser.error("Invalid resolution format: %s. Use (X)x(Y).")
         res = (int(lres[0]), int(lres[1]))
         if not any((res[0] == r[0] and res[1] == r[1])
                    for r in CameraController.MODES):
-            print fmt_res % tuple(str_res)
+            print(fmt_res % tuple(str_res))
             parser.error("Invalid resolution provided.")
     elif args.close:
         action = close_camera
@@ -154,6 +154,7 @@ def main():
     rospy.init_node('rsdk_camera_control')
     action(camera, res)
     return 0
+
 
 if __name__ == '__main__':
     sys.exit(main())

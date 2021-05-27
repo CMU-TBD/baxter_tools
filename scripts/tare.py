@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
 # Copyright (c) 2013-2015, Rethink Robotics
 # All rights reserved.
@@ -70,7 +70,7 @@ def gripper_removed(side):
     gripper = baxter_interface.Gripper(side)
     if gripper.type() != 'custom':
         rospy.logerr("Cannot tare with grippers attached."
-                       " Remove grippers before tare!")
+                     " Remove grippers before tare!")
         return False
     return True
 
@@ -79,8 +79,8 @@ def main():
     parser = argparse.ArgumentParser()
     required = parser.add_argument_group('required arguments')
     required.add_argument('-l', '--limb', required=True,
-                        choices=['left', 'right'],
-                        help='Tare the specified limb')
+                          choices=['left', 'right'],
+                          help='Tare the specified limb')
     args = parser.parse_args(rospy.myargv()[1:])
     limb = args.limb
 
@@ -102,7 +102,7 @@ def main():
     error = None
     try:
         tt.run()
-    except Exception, e:
+    except Exception as e:
         error = e.strerror
     finally:
         try:
@@ -116,6 +116,7 @@ def main():
         rospy.logerr("Tare failed: %s" % (error,))
 
     return 0 if error == None else 1
+
 
 if __name__ == '__main__':
     sys.exit(main())
